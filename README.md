@@ -32,6 +32,10 @@
 
 - **Пороги ШИМ** (PWM) («мощности») как раз таки устанавливают минимальный и максимальный порог мощности работы вентилятора. Почему минимальный у меня = 950 PWM? Подобрал это опытным путем, ибо при меньших значениях МОЙ вентилятор за 60р просто не может стартануть.
 
+<img width="1028" height="658" alt="image" src="https://github.com/user-attachments/assets/15444a29-e657-4fb1-9ddc-198bd7b1ef5d"/>
+
+<img width="1033" height="703" alt="image" src="https://github.com/user-attachments/assets/bc363b2d-34fd-4cf5-814c-c79f25228ce0"/>
+
 https://github.com/user-attachments/assets/947b8b01-0ef1-4230-bbaa-66d4df62416a
 
 # Как это выглядит в жизни
