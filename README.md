@@ -36,6 +36,9 @@
 
 <img width="1033" height="703" alt="image" src="https://github.com/user-attachments/assets/bc363b2d-34fd-4cf5-814c-c79f25228ce0"/>
 
+<img width="585" height="771" alt="image" src="https://github.com/user-attachments/assets/ee9e26f1-fbef-49ca-aa60-f29ca2713a66" />
+
+
 https://github.com/user-attachments/assets/947b8b01-0ef1-4230-bbaa-66d4df62416a
 
 # Как это выглядит в жизни
