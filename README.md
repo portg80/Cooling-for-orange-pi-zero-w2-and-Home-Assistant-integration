@@ -38,7 +38,7 @@
 
 <img width="1033" height="703" alt="image" src="https://github.com/user-attachments/assets/bc363b2d-34fd-4cf5-814c-c79f25228ce0"/>
 
-Видео-демонстрация сигнализации с оповещением через алису:
+Видео-демонстрация сигнализации с оповещением через алису (звук включи):
 
 https://github.com/user-attachments/assets/526eb54d-f185-41ab-abf6-150ad8f4b349
 
