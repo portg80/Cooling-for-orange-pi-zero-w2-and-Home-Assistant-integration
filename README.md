@@ -1,4 +1,4 @@
-# Охлаждение для orange pi zero w2 + Home Assistant интеграция
+# Охлаждение для orange pi zero w2 | Home Assistant интеграция | Node-Red оповещения о неисправности охлаждения
 
 !!!В ПРОЦЕССЕ НАПИСАНИЯ!!!
 
