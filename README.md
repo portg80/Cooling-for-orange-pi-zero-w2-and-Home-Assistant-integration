@@ -485,9 +485,10 @@ mqtt:
 
 - **Mushroom**
 
-И 1 тему для Home Assistant:
-
 <img width="1243" height="1120" alt="image" src="https://github.com/user-attachments/assets/d3d4999a-47cc-4a64-87a9-f27557b1e3b4" />
+
+
+И 1 тему для Home Assistant:
 
 - **Graphite Theme**
 <img width="1900" height="1267" alt="image" src="https://github.com/user-attachments/assets/2dcb194e-3b68-40f5-abee-7c9d34f0acec" />
