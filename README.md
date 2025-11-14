@@ -300,6 +300,7 @@ sudo systemctl start pwmfan.service
 ```
 
 ГОТОВО - СЕРВИС ЗАПУЩЕН!
+## С ЭТОГО МОМЕНТА СКРИПТ УЖЕ РАБОТАЕТ, РЕГУЛИРУЕТ СКОРОСТЬ ВРАЩЕНИЯ ПО ТЕМПЕРАТУРЕ, И ОТЫСЛАЕТ ДАННЫЕ ПО MQTT НА СЕРВЕР (если сервер MQTT недоступен по каким либо причинам то не страшно, он подключится сам сразу как он станет доступен)
 
 **Проверка статуса:**
 
@@ -341,3 +342,6 @@ sudo systemctl enable pwmfan.service
 sudo rm /etc/systemd/system/pwmfan.service
 sudo systemctl daemon-reload
 ```
+
+
+# Доба
