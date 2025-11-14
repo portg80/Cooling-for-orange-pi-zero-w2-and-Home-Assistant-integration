@@ -493,3 +493,7 @@ mqtt:
 - **Graphite Theme**
 <img width="1900" height="1267" alt="image" src="https://github.com/user-attachments/assets/2dcb194e-3b68-40f5-abee-7c9d34f0acec" />
 
+Установить тему для панели можно здесь:
+
+<img width="2560" height="1280" alt="image" src="https://github.com/user-attachments/assets/74091518-9643-4e87-aee2-e0fec176b5cd" />
+
