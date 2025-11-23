@@ -104,11 +104,11 @@ https://github.com/user-attachments/assets/8a7b5d3a-5384-4713-b0a4-a957a2917b34
 # Схема пайки и подключения
 **Страшная принципиальная:**
 
-<img width="1315" height="799" alt="image" src="https://github.com/user-attachments/assets/dbce08c2-b91f-4f59-b46a-b8aab996bda9" />
+<img width="1315" height="799" alt="shema_pwm" src="https://github.com/user-attachments/assets/8072d854-cc3d-44c4-8a2a-90a4fcb2eca6" />
 
 **Вот схема подключения с подписями каждого пина (контакта):**
 
-<img width="1317" height="602" alt="image" src="https://github.com/user-attachments/assets/9a6d0b24-5847-4819-ad20-98152d53234a" />
+<img width="1335" height="619" alt="shema_pwm_paint" src="https://github.com/user-attachments/assets/72f0f7a6-ad7b-4e8b-98de-a3c26dac690e" />
 
 GND можно воткнуть в любой свободный, а PWM read и PWM control переназначить в моем скрипте (PWM control только на пин с поддержкой ШИМ, по типу PWM1 PWM2 на картинке).
 
