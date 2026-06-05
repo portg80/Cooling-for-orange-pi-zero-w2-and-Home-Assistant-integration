@@ -11,4 +11,4 @@
 - `VoiceAssistant/wakeword/neuralnet/optimize_graph.py` — экспорт TorchScript.
 - `VoiceAssistant/wakeword/engine.py` — отдельный движок инференса.
 
-Полные локальные манифесты не включены, потому что содержали абсолютные пути и имена исходных файлов. Переносимые примеры лежат в `VoiceAssistant/wakeword/manifests`.
+Примеры JSONL-манифестов лежат в `VoiceAssistant/wakeword/manifests`. Полные `train.json` и `test.json` создаются для конкретного локального аудиодатасета через `create_wakeword_jsons.py`.
