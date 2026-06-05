@@ -1,0 +1,22 @@
+<div class="status-card m-2 bg-transparent">
+  <h4 class="text-center">ПРИВЕТ! Меня зовут Афина ^_^</h4>
+
+  <div class="wave-button-container">
+    <div id="wave-button" class="wave-button wave-state-unmuted">
+      <div class="wave-button-overlay"><i class="bi bi-mic-fill wave-icon"></i></div>
+      <div id="wave-container" class="wave-state-unmuted">
+        <canvas id="wave"></canvas>
+        <div id="skin-overlay" class="skin-overlay"></div>
+        <canvas id="skin-canvas" class="skin-overlay"></canvas>
+      </div>
+    </div>
+    {% include 'partials/_skin_panel.html' %}
+  </div>
+
+  {% include 'partials/_controls.html' %}
+  <!-- статусы -->
+  <div class="row">
+    <div class="col">Стат. Активен: <span id="activeStatus">нет</span></div>
+    <div class="col">Состояние: <span id="stateStatus">IDLE</span></div>
+  </div>
+</div>

@@ -1,0 +1,388 @@
+/* static/css/base.css */
+body {
+    background: linear-gradient(to bottom, #151517, #19191B);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+body, body * {
+    color: #DEDEDE !important;
+}
+
+h4 {
+    font-family: "Shantell Sans", cursive;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "BNCE" 0,
+        "INFM" 0,
+        "SPAC" 0;
+}
+
+
+.status-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.message-bubble {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    width: 100%; /* растянуть по ширине контейнера */
+    display: flex;
+    flex-direction: column;
+}
+
+.message-text {
+    word-wrap: break-word;
+    white-space: pre-wrap; /* перенос строк */
+}
+
+.message-bubble small {
+    color: white;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+
+.user-message {
+    background: rgba(66, 133, 244, 0.3);
+    margin-left: auto;
+}
+
+.assistant-message {
+    background: rgba(52, 168, 83, 0.3);
+}
+
+.error-message {
+    background: rgba(234, 67, 53, 0.3);
+}
+
+.btn-circle {
+    border-radius: 50%;       /* делает кнопку круглой */
+    width: 50px;              /* ширина */
+    height: 50px;             /* высота */
+    padding: 0;               /* убираем внутренние отступы */
+    display: flex;
+    align-items: center;
+    justify-content: center;  /* центрируем иконку */
+    font-size: 1.2rem;        /* размер иконки */
+}
+
+
+/* Добавьте в конец файла main.css */
+
+.message-bubble {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.message-bubble.expanded {
+    background: rgba(255,255,255,0.15);
+    margin-bottom: 30px;
+}
+
+.message-content {
+    min-height: 20px;
+}
+
+.message-extra {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.message-bubble.expanded .message-extra {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 10px;
+}
+
+.message-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.message-timestamp {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    margin-right: 10px;
+}
+
+.action-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.action-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.copy-btn {
+    background: rgba(66, 133, 244, 0.3);
+}
+
+.delete-btn {
+    background: rgba(234, 67, 53, 0.3);
+}
+
+.message-text {
+    user-select: text;
+}
+
+/* Стили для кнопки Повторить */
+.repeat-btn {
+    background: rgba(255, 193, 7, 0.3);
+}
+
+.repeat-btn:hover {
+    background: rgba(255, 193, 7, 0.5);
+}
+
+/* Анимация для кнопки повтора при нажатии */
+.repeat-btn:active {
+    transform: scale(0.95);
+}
+
+/* Состояния кнопок при загрузке/ошибке */
+.repeat-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Улучшенное расположение кнопок для сообщений с повторением */
+.message-bubble[data-message-type="recognized_speech"] .message-actions {
+    gap: 6px;
+}
+
+.message-bubble[data-message-type="recognized_speech"] .action-btn {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+}
+
+/* Стили для сообщений о повторении команд */
+.repeat-message {
+    background: rgba(255, 193, 7, 0.2);
+    border-left: 4px solid rgba(255, 193, 7, 0.5);
+}
+
+/* Убедимся, что все сообщения отображаются */
+.message-bubble {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Добавьте этот стиль в раздел сообщений */
+.repeat-message {
+    background: linear-gradient(135deg, #A9681E, #B88F52) !important;
+    border-left: 4px solid #ff8c00 !important;
+    color: #000 !important;
+}
+
+.repeat-message .message-timestamp {
+    color: #666 !important;
+}
+
+
+/* static/css/wave.css */
+.wave-state-command {
+    --wave-start-color: #ff4444;
+    --wave-end-color: #cc0000;
+}
+
+/* Обновите существующие стили для лучшей видимости иконки */
+.wave-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    display: flex !important; /* Важно: убедитесь что display flex */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.wave-icon {
+    font-size: 2rem;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+/* static/css/wave.css */
+.wave-button-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    display: flex; /* ДОЛЖНО БЫТЬ flex, а не none! */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    /* УБЕДИТЕСЬ ЧТО НЕТ display: none; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* static/css/base.css */
+
+/* Базовая структура сообщений */
+.message-bubble {
+    margin: 10px 0;
+    max-width: 80%;
+}
+
+.message-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Иконки сообщений */
+.message-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+}
+
+/* Сообщения пользователя (справа) */
+.user-message {
+    margin-left: auto;
+}
+
+.user-message .message-wrapper {
+    flex-direction: row-reverse;
+}
+
+.user-message .message-icon {
+    color: white;
+    margin-left: 10px; /* Отступ слева для пользователя */
+}
+
+.user-message .message-content {
+    color: white;
+    border-radius: 18px 18px 4px 18px;
+}
+
+/* Сообщения ассистента (слева) */
+.assistant-message .message-icon {
+    color: white;
+    margin-right: 10px; /* Отступ справа для ассистента */
+}
+
+.assistant-message .message-content {
+    color: #333;
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Сообщения об ошибках */
+.error-message .message-icon {
+    color: white;
+    margin-right: 10px;
+}
+
+.error-message .message-content {
+    color: #721c24;
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Сообщения повторов */
+.repeat-message .message-icon {
+
+    color: #212529;
+    margin-right: 10px;
+}
+
+.repeat-message .message-content {
+    color: #856404;
+    border-radius: 18px 18px 18px 4px;
+}
+
+/* Контент сообщений */
+.message-content {
+    padding: 0px 16px;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-width: 120px;
+}
+
+.message-text {
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .message-bubble {
+        max-width: 90%;
+    }
+
+    .message-wrapper {
+        gap: 8px;
+    }
+
+    .message-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+}

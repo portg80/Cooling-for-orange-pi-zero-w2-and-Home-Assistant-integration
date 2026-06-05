@@ -1,0 +1,217 @@
+/* Стили для системы скинов */
+.skin-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.skin-element {
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+/* Скины для глаз */
+.eyes {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+    top: 30%;
+    left: 20%;
+}
+
+.eye {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.pupil {
+    width: 10px;
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease;
+}
+
+.eyelid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    top: -100%;
+    transition: top 0.2s ease;
+}
+
+.blinking .eyelid {
+    top: 0;
+}
+
+/* Скины для очков */
+.glasses {
+    width: 70%;
+    top: 25%;
+    left: 15%;
+}
+
+.glass-frame {
+    width: 100%;
+    height: 40px;
+    border: 3px solid #000;
+    border-radius: 50%;
+    position: relative;
+}
+
+.glass-bridge {
+    width: 20%;
+    height: 5px;
+    background: #000;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+}
+
+/* Анимации */
+@keyframes blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+}
+
+.blink-animation {
+    animation: blink 3s infinite;
+}
+
+/* Контекстное меню для скинов */
+.skin-context-menu {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
+}
+
+.skin-option {
+    padding: 8px 12px;
+    margin: 2px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: white;
+}
+
+.skin-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Стили для кнопки управления скинами */
+.btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.skin-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 20;
+}
+
+/* Панель выбора скинов */
+.skin-panel {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    border-radius: 15px;
+    padding: 15px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    min-width: 200px;
+    display: none;
+}
+
+.skin-panel.active {
+    display: block;
+}
+
+.skin-panel-header {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+.skin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.skin-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    color: white;
+}
+
+.skin-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.skin-item.active {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+}
+
+.skin-item i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.skin-item-name {
+    font-size: 0.8rem;
+}
+
+/* Предпросмотр скинов */
+.skin-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}

@@ -1,0 +1,6 @@
+{% macro skin_item(id, icon_class, title) %}
+<div class="skin-item" data-skin="{{ id }}">
+  <div class="skin-preview"><i class="bi {{ icon_class }}"></i></div>
+  <div class="skin-item-name">{{ title }}</div>
+</div>
+{% endmacro %}
