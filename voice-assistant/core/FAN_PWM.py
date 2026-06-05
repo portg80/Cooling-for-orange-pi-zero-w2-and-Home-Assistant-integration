@@ -7,7 +7,7 @@ import json
 import paho.mqtt.client as mqtt
 from threading import Lock
 import datetime
-from threading import Lock, Thread  # ИЗМЕНЕНО(1): Добавлен импорт Thread
+from threading import Lock, Thread
 
 # Конфигурация
 PWM_PIN = 21  # GPIO 6 (WiringPi) - основной PWM-пин для Orange Pi
@@ -25,22 +25,22 @@ FAN_PULSES_PER_REVOLUTION = 2  # Обычно 2 импульса на оборо
 RPS_MEASUREMENT_INTERVAL = 1.0  # Интервал измерения RPS в секундах
 DEBOUNCE_TIME = 0.005  # 5 мс защита от дребезга
 
-fan_rps = 0  # Заглушка для будущего датчика
+fan_rps = 0  # Текущее значение скорости вентилятора
 pulse_count = 0  # Автоматически защищен от race condition (состояния гонки в многопоточности)
 last_pulse_time = 0
 rps_lock = Lock()
 
 # MQTT-настройки
-MQTT_BROKER = "192.168.0.33"  # Например, "localhost" или IP
+MQTT_BROKER = "ВАШ_АДРЕС_HOME_ASSISTANT"  # Например, "localhost" или IP
 MQTT_PORT = 1883
 MQTT_USER = "mqtt-user"
-MQTT_PASSWORD = "F7SKJ$@#5DSf23"
+MQTT_PASSWORD = "ВАШ_ПАРОЛЬ_MQTT"
 MQTT_BASE_TOPIC = "home/orangepi/fan_control"
 MQTT_CLIENT_ID = "orangepi_fan_controller"
 
 # Глобальные переменные
 mqtt_connected = False
-mqtt_client = None  # ИЗМЕНЕНО(2): Глобальная переменная для MQTT-клиента
+mqtt_client = None
 
 
 def setup_gpio():
@@ -183,7 +183,6 @@ def publish_state(client, temp, pwm_value, rps):
     client.publish(f"{MQTT_BASE_TOPIC}/pwm/current", round(pwm_value, 2))
 
 
-# ИЗМЕНЕНО(3): Функция для фонового потока MQTT
 def mqtt_background_thread():
 
 
@@ -216,7 +215,6 @@ def main():
     global mqtt_connected, fan_rps, pulse_count
     # fan_rps = -88
 
-    # ИЗМЕНЕНО(4): Запускаем MQTT в фоновом потоке
     mqtt_thread = Thread(target=mqtt_background_thread, daemon=True)
     mqtt_thread.start()
     # Даем время на инициализацию MQTT
@@ -236,7 +234,7 @@ def main():
         # Начальное состояние
         last_pwm = -1
         last_rps_time = time.time()
-        actual_pwm = 0  # ДОБАВИЛ ТК НЕБЫЛО ИНИЦ. НЕПРОТЕСТИРОВАННО!
+        actual_pwm = 0  # Начальное значение PWM до первой установки скорости
         print(f"Управление вентилятором через GPIO {PWM_PIN} (PWM)")
         print(f"Датчик RPS стоит на GPIO {RPS_PIN}")
         print(f"MIN_PWM={MIN_PWM}, MAX_PWM={MAX_PWM}, OFF_TEMP={OFF_TEMP}°C")
@@ -263,7 +261,6 @@ def main():
                 actual_pwm = set_fan_speed(pwm_value)
                 last_pwm = actual_pwm
 
-            # ИЗМЕНЕНО(1): Публикация состояния через глобальный mqtt_client
             if mqtt_connected and mqtt_client is not None:
                 try:
                     publish_state(mqtt_client, temp, actual_pwm, fan_rps)

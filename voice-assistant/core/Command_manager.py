@@ -25,11 +25,11 @@ class CommandManager:
                             sound_player=self.sound_player
                         )
                     except TypeError:
-                        print(f"⚠ Команда {obj.__name__} не поддерживает параметры, создаем без них")
+                        print(f"[WARN] Команда {obj.__name__} не поддерживает параметры, создаем без них")
                         command_instance = obj()
 
                     self.commands.append(command_instance)
-                    print(f"✅ Загружена команда: {command_instance.name} (тип: {command_instance.match_type})")
+                    print(f"[OK] Загружена команда: {command_instance.name} (тип: {command_instance.match_type})")
 
     def find_command(self, text: str) -> Optional[BaseCommand]:
         """Находит команду по тексту (использует встроенный matching команд)"""

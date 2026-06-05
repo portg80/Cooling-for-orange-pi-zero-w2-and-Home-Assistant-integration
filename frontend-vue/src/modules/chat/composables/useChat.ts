@@ -9,13 +9,7 @@ function makeTimestamp(): string {
   return new Date().toLocaleTimeString()
 }
 
-const messages = ref<ChatMessage[]>([
-  { id: 1, text: 'Команда выполнена ссер', type: 'assistant', timestamp: makeTimestamp(), expanded: false },
-  { id: 2, text: 'Привет, я пользователь!', type: 'user', timestamp: makeTimestamp(), expanded: false },
-  { id: 3, text: 'Информация', type: 'info', timestamp: makeTimestamp(), expanded: false },
-  { id: 4, text: 'ОШИБКА! ПРОВЕРЬ ОШИБКУ!', type: 'error', timestamp: makeTimestamp(), expanded: false },
-  { id: 5, text: 'Команда выполнена ссер', type: 'assistant', timestamp: makeTimestamp(), expanded: false },
-])
+const messages = ref<ChatMessage[]>([])
 
 const nextId = ref(messages.value.length + 1)
 export function useChat() {
@@ -67,18 +61,18 @@ export function useChat() {
   }
 
   async function onRepeatMessage(msg: ChatMessage) {
-    // пока просто повторяем как пользовательское
+    // Повторная отправка сообщения как пользовательской команды.
     await sendUserMessage(msg.text)
   }
 
 
 
-  // ФУНКЦИИ РАБОТЫ С АПИ
+  // Работа с API
   async function sendUserMessage(text: string) {
     const trimmed = text.trim()
     if (!trimmed) return
 
-    // 1) показываем в чате, что пользователь отправил команду
+    // Показываем в чате отправленную команду пользователя.
     addMessage(trimmed, 'user')
 
     try {

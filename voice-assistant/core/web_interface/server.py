@@ -83,7 +83,7 @@ class WebInterface:
         wakeword_active = False
         manual_mute = False
 
-        # пауза wakeword (как у тебя в REST)
+        # Пауза wakeword через общий API.
         if hasattr(self.assistant, 'wakeword_engine'):
             try:
                 wakeword_paused = self.assistant.wakeword_engine.is_paused()
@@ -111,11 +111,11 @@ class WebInterface:
         if not self.app:
             self.initialize()
 
-        print(f"[🚀] Flask сервер запущен на http://{self.host}:{self.port}")
+        print(f"[SERVER] Flask сервер запущен на http://{self.host}:{self.port}")
         self.app.run(host=self.host, port=self.port, debug=False)
 
     def stop(self):
         """Остановка веб-интерфейса"""
         if self.audio_stream:
             self.audio_stream.stop_stream()
-        print("[🛑] Веб-интерфейс остановлен")
+        print("[SERVER] Веб-интерфейс остановлен")

@@ -30,7 +30,7 @@ class AsyncMQTTClient:
         if getattr(self.config, "MQTT_CLIENT_ID", None):
             client_opts["identifier"] = self.config.MQTT_CLIENT_ID
 
-        # 🔁 Бесконечный цикл для переподключения при обрыве связи
+        # Бесконечный цикл для переподключения при обрыве связи.
         while True:
             try:
                 # Подключаемся к брокеру

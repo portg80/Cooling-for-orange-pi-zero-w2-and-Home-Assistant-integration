@@ -48,7 +48,7 @@ python train.py --train_data_json ..\train.json --test_data_json ..\test.json --
 
 [optimize_graph.py](../wakeword-training/VoiceAssistant/wakeword/neuralnet/optimize_graph.py) загружает checkpoint, трассирует модель через `torch.jit.trace` и сохраняет `.ptc` файл для инференса.
 
-Текущая модель ассистента: [afina_reworked_1.ptc](../voice-assistant/core/wake_word_ai/TEST/afina_reworked_1.ptc). Старая модель [wakeword21.ptc](../voice-assistant/core/wake_word_ai/WW_models/wakeword21.ptc) оставлена как справочный артефакт.
+Модель, используемая ассистентом: [afina_reworked_1.ptc](../voice-assistant/core/wake_word_ai/TEST/afina_reworked_1.ptc). Модель [wakeword21.ptc](../voice-assistant/core/wake_word_ai/WW_models/wakeword21.ptc) оставлена для сравнения с предыдущей версией.
 
 ## Инференс
 

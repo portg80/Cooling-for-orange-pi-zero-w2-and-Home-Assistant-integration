@@ -1,4 +1,4 @@
-"""the interface to interact with wakeword model"""
+"""Интерфейс запуска wake word модели."""
 import pyaudio
 import threading
 import time
@@ -8,9 +8,9 @@ import torch
 from neuralnet.dataset import get_featurizer
 import signal
 import sys
-import pygame  # добавили pygame
+import pygame
 class Listener:
-    def __init__(self, sample_rate=8000, device_index=None):  # добавили device_index
+    def __init__(self, sample_rate=8000, device_index=None):
         self.chunk = 1024
         self.sample_rate = sample_rate
         self.p = pyaudio.PyAudio()
@@ -18,7 +18,7 @@ class Listener:
                                   channels=1,
                                   rate=self.sample_rate,
                                   input=True,
-                                  input_device_index=device_index,  # вот сюда
+                                  input_device_index=device_index,
                                   frames_per_buffer=self.chunk)
 
     def listen(self, queue):
@@ -100,7 +100,7 @@ class DemoAction:
 
     def play(self):
         if not self.arnold_mp3:
-            print("NO ARNOLD FILES!")
+            print("Аудиофайлы ответа wake word не найдены.")
             return
         filename = self.random.choice(self.arnold_mp3)
         print("PLAYING WAKEWORD RESPONSE:", filename)
@@ -114,7 +114,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 if __name__ == "__main__":
-    signal.signal(signal.SIGINT, signal_handler)  # фикс Ctrl+C
+    signal.signal(signal.SIGINT, signal_handler)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_file', type=str, required=True)
@@ -124,10 +124,10 @@ if __name__ == "__main__":
 
     engine = WakeWordEngine(args.model_file, device_index=args.mic_index)
     action = DemoAction(sensitivity=args.sensitivity)
-    print("*** SOX НЕ НУЖЕН! Используем pygame. Папка arnold_audio должна быть! ***")
+    print("Для воспроизведения ответа используется pygame; папка arnold_audio должна существовать.")
     engine.run(action)
 
-    # Бесконечный цикл в main (чтобы Ctrl+C работал)
+    # Основной цикл удерживает процесс активным до прерывания.
     try:
         while True:
             time.sleep(1)

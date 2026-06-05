@@ -23,12 +23,12 @@ class WebSocketManager:
         def audio_websocket(ws):
             with self._audio_lock:
                 self.audio_clients.add(ws)
-            print("[🌐] Новый аудио-клиент подключился")
+            print("[WS] Новый аудио-клиент подключился")
             try:
                 while True:
                     ws.receive()
             except Exception as e:
-                print(f"[❌] Аудио-клиент отключился: {e}")
+                print(f"[WS] Аудио-клиент отключился: {e}")
             finally:
                 with self._audio_lock:
                     if ws in self.audio_clients:
@@ -38,12 +38,12 @@ class WebSocketManager:
         def text_websocket(ws):
             with self._text_lock:
                 self.text_clients.add(ws)
-            print("[🌐] Новый текст-клиент подключился")
+            print("[WS] Новый текст-клиент подключился")
             try:
                 while True:
                     ws.receive()
             except Exception as e:
-                print(f"[❌] Текст-клиент отключился: {e}")
+                print(f"[WS] Текст-клиент отключился: {e}")
             finally:
                 with self._text_lock:
                     if ws in self.text_clients:

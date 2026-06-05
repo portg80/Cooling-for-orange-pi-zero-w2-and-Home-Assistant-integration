@@ -21,7 +21,7 @@ class SoundPlayer:
         # Отладочная информация
         print(f"[SOUND] SoundPlayer initialized with base_dir: {os.path.abspath(base_dir)}")
         if not os.path.exists(self.base_dir):
-            print(f"[SOUND] ⚠️ Base directory does not exist: {self.base_dir}")
+            print(f"[SOUND] Base directory does not exist: {self.base_dir}")
 
     def _ensure_init(self):
         if not self._initialized:
@@ -53,14 +53,14 @@ class SoundPlayer:
 
             result = subprocess.run(cmd, capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"[CONVERT] ✅ Успешно: {os.path.basename(input_path)} → {os.path.basename(output_path)}")
+                print(f"[CONVERT] Успешно: {os.path.basename(input_path)} → {os.path.basename(output_path)}")
                 return True
             else:
-                print(f"[CONVERT] ❌ Ошибка конвертации {input_path}: {result.stderr}")
+                print(f"[CONVERT] Ошибка конвертации {input_path}: {result.stderr}")
                 return False
 
         except Exception as e:
-            print(f"[CONVERT] ❌ Исключение при конвертации {input_path}: {e}")
+            print(f"[CONVERT] Исключение при конвертации {input_path}: {e}")
             return False
 
     def convert_all_audio_in_folder(self, folder_path=None, overwrite=False):
@@ -75,15 +75,15 @@ class SoundPlayer:
             folder_path = self.base_dir
 
         if not os.path.exists(folder_path):
-            print(f"[CONVERT] ⚠️ Папка не существует: {folder_path}")
+            print(f"[CONVERT] Папка не существует: {folder_path}")
             return
 
         if not self.is_ffmpeg_available():
-            print("[CONVERT] ❌ ffmpeg не найден! Установите ffmpeg для конвертации аудио.")
+            print("[CONVERT] ffmpeg не найден. Установите ffmpeg для конвертации аудио.")
             print("[CONVERT] Скачать: https://ffmpeg.org/download.html")
             return
 
-        print(f"[CONVERT] 🔍 Сканирую папку: {folder_path}")
+        print(f"[CONVERT] Сканирую папку: {folder_path}")
 
         converted_count = 0
         skipped_count = 0
@@ -110,13 +110,13 @@ class SoundPlayer:
                         skipped_count += 1
                         continue
 
-                    print(f"[CONVERT] 🔄 Конвертирую: {file} → {wav_filename}")
+                    print(f"[CONVERT] Конвертирую: {file} → {wav_filename}")
                     if self.convert_audio_file(file_path, wav_path):
                         converted_count += 1
                     else:
-                        print(f"[CONVERT] ❌ Не удалось конвертировать: {file}")
+                        print(f"[CONVERT] Не удалось конвертировать: {file}")
 
-        print(f"[CONVERT] 📊 Результат: {converted_count} сконвертировано, {skipped_count} пропущено")
+        print(f"[CONVERT] Результат: {converted_count} сконвертировано, {skipped_count} пропущено")
 
     def find_audio_file(self, relative_path):
         """
@@ -141,11 +141,11 @@ class SoundPlayer:
                 return wav_path
             # Иначе конвертируем
             else:
-                print(f"[SOUND] 🔄 Автоконвертация: {relative_path}")
+                print(f"[SOUND] Автоконвертация: {relative_path}")
                 if self.convert_audio_file(full_path, wav_path):
                     return wav_path
                 else:
-                    print(f"[SOUND] ⚠️ Использую оригинальный файл (возможны проблемы): {relative_path}")
+                    print(f"[SOUND] Используется оригинальный файл (возможны проблемы): {relative_path}")
                     return full_path
 
         return full_path
@@ -173,7 +173,7 @@ class SoundPlayer:
 
         # Проверка существования
         if not os.path.exists(full_path):
-            print(f"[SOUND] ⚠️ File not found: {full_path}")
+            print(f"[SOUND] File not found: {full_path}")
             # Покажем какие файлы есть в директории
             if os.path.exists(self.base_dir):
                 print(f"[SOUND] Files in {self.base_dir}:")
@@ -197,10 +197,10 @@ class SoundPlayer:
                     if block:
                         time.sleep(sound.get_length())
             except Exception as e:
-                print(f"[SOUND] ❌ Error while playing {relative_path}: {e}")
+                print(f"[SOUND] Error while playing {relative_path}: {e}")
                 # Если ошибка с оригинальным файлом, пробуем конвертировать и воспроизвести снова
                 if auto_convert and not full_path.endswith(self.output_format):
-                    print(f"[SOUND] 🔄 Retrying with conversion...")
+                    print(f"[SOUND] Retrying with conversion...")
                     wav_path = os.path.splitext(full_path)[0] + self.output_format
                     if self.convert_audio_file(full_path, wav_path):
                         self.play_sound(
@@ -214,9 +214,9 @@ class SoundPlayer:
         """
         Пакетная конвертация всей папки (удобно для инициализации)
         """
-        print("[CONVERT] 🚀 Запуск пакетной конвертации...")
+        print("[CONVERT] Запуск пакетной конвертации...")
         self.convert_all_audio_in_folder(folder_path, overwrite)
-        print("[CONVERT] ✅ Пакетная конвертация завершена")
+        print("[CONVERT] Пакетная конвертация завершена")
 
     def get_conversion_stats(self, folder_path=None):
         """
@@ -244,7 +244,7 @@ class SoundPlayer:
                 else:
                     stats['other_files'] += 1
 
-        print(f"[STATS] 📊 Статистика аудиофайлов в {folder_path}:")
+        print(f"[STATS] Статистика аудиофайлов в {folder_path}:")
         print(f"        Всего файлов: {stats['total_files']}")
         print(f"        WAV файлов: {stats['wav_files']}")
         print(f"        Конвертируемых: {stats['convertible_files']}")

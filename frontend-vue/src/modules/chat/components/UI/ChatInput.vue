@@ -16,15 +16,7 @@
     emit('send')
   }
 
-  //(e: Event) Это только подсказка для TypeScript: «переменная e — это объект события».
   function onInput(e: Event) {
-
-    /*Когда браузер вызывает обработчик события (input, click, и т.п.),
-    он передаёт в него объект event. У него есть свойство target — элемент,
-    на котором произошло событие.
-      e.target — это конкретный DOM-элемент <input>.
-      У него есть свойство .value — текст в поле.
-    */
     const target = e.target as HTMLInputElement
     emit('update:modelValue', target.value)
   }
@@ -44,8 +36,8 @@
     />
     <NotifyButton
       :btnClass="'px-5  py-1 text-sm rounded-2xl rounded-l-none bg-gray-500/40 hover:bg-gray-500/60'"
-      label="🧻"
-      successLabel="🚽"
+      label="Отправить"
+      successLabel="Отправлено"
       :timeout="700"
       @click="emit('send')"
     />

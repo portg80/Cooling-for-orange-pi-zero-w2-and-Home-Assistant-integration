@@ -61,7 +61,7 @@ class PizzaCalculatorCommand(BaseCommand):
             response = self._format_response(size_info, area, price, price_per_cm2)
 
             self.say(response)
-            print(f"[PIZZA] 📊 {response}")
+            print(f"[PIZZA] {response}")
 
             # Воспроизводим звук успешного расчета
             self.play_random_sound("calculations", "success", "click", volume=0.3)
@@ -69,7 +69,7 @@ class PizzaCalculatorCommand(BaseCommand):
         except Exception as e:
             error_msg = "Извините, произошла ошибка при расчете пиццы. Попробуйте еще раз."
             self.say(error_msg)
-            print(f"[PIZZA] ❌ Ошибка: {e}")
+            print(f"[PIZZA] Ошибка: {e}")
 
     def _extract_parameters(self, text: str):
         """Извлекает диаметр, радиус и цену из текста"""

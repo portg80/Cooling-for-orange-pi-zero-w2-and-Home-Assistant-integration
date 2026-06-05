@@ -12,5 +12,5 @@ class Voicemeter_Utils:
             with voicemeeterlib.api('potato') as vm:
                 vm.strip[7].A1 = False
                 vm.strip[7].A2 = True
-        except:
-            print("ОШИБКА НАХОЙ")
+        except Exception as e:
+            print(f"Ошибка переключения Voicemeeter: {e}")

@@ -10,10 +10,10 @@ import paho.mqtt.client as paho_mqtt
 
 class MQTT_SENDLER_CLASS:
     def __init__(self,
-                 mqtt_broker_ip_address="192.168.1.33",
+                 mqtt_broker_ip_address="ВАШ_АДРЕС_MQTT_БРОКЕРА",
                  mqtt_port=1883,
-                 mqtt_username="mqtt-user",
-                 mqtt_password="F7SKJ$@#5DSf23",
+                 mqtt_username="ВАШ_MQTT_USER",
+                 mqtt_password="ВАШ_MQTT_PASSWORD",
                  mqtt_base_topic="home/orangepi/AFINA_Assistant"):
 
         # ------------------ Настройки брокера ------------------
@@ -64,7 +64,6 @@ class MQTT_SENDLER_CLASS:
         except ValueError as e:
             print(f"Ошибка обработки команды: {e}")
 
-    # ИЗМЕНЕНО(3): Функция для фонового потока MQTT
     def mqtt_background_thread(self):
         # Создаем и настраиваем клиент
         self.MQTT_CLIENT = paho_mqtt.Client(client_id=self.MQTT_CLIENT_ID)
@@ -98,7 +97,7 @@ class MQTT_SENDLER_CLASS:
         retain: удерживать сообщение на брокере
         """
         if not self.MQTT_CLIENT or not self.mqtt_connected:
-            print("⚠ MQTT не подключён, данные не отправлены")
+            print("[MQTT] MQTT не подключён, данные не отправлены")
             return
 
         full_topic = f"{self.mqtt_base_topic}/{topic_suffix}"
@@ -110,7 +109,7 @@ class MQTT_SENDLER_CLASS:
             payload_to_send = str(payload)
 
         self.MQTT_CLIENT.publish(full_topic, payload=payload_to_send, retain=retain)
-        print(f"📡 Published to {full_topic}: {payload_to_send}")
+        print(f"[MQTT] Published to {full_topic}: {payload_to_send}")
 
 
 def main():

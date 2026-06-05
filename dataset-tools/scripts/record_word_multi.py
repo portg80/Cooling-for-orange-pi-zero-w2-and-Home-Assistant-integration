@@ -48,7 +48,7 @@ class AudioRecorder:
                 try:
                     self.audio_instances[device_id] = pyaudio.PyAudio()
                 except Exception as e:
-                    print(f"❌ Ошибка создания PyAudio для устройства {device_id}: {e}")
+                    print(f"Ошибка создания PyAudio для устройства {device_id}: {e}")
                     return None
             return self.audio_instances[device_id]
 
@@ -70,7 +70,7 @@ recorder = AudioRecorder()
 def list_audio_devices():
     """Список всех аудиоустройств"""
     p = pyaudio.PyAudio()
-    print("\n🎙️  Доступные устройства записи:\n")
+    print("\nДоступные устройства записи:\n")
     for i in range(p.get_device_count()):
         info = p.get_device_info_by_index(i)
         if info['maxInputChannels'] > 0:
@@ -88,12 +88,12 @@ def validate_devices(device_indexes):
         try:
             info = p.get_device_info_by_index(idx)
             if info['maxInputChannels'] >= CHANNELS:
-                print(f"✅ [{idx}] {info['name']}")
+                print(f"[OK] [{idx}] {info['name']}")
                 valid_devices.append(idx)
             else:
-                print(f"❌ [{idx}] {info['name']} - недостаточно входных каналов")
+                print(f"[ERROR] [{idx}] {info['name']} - недостаточно входных каналов")
         except Exception as e:
-            print(f"❌ [{idx}] Ошибка: {e}")
+            print(f"[ERROR] [{idx}] Ошибка: {e}")
 
     p.terminate()
     return valid_devices
@@ -156,7 +156,7 @@ def record_single_device(device_index, phrase, timestamp, start_event, recording
                 wf.writeframes(b''.join(frames))
 
     except Exception as e:
-        print(f"❌ Ошибка записи с устройства {device_index}: {e}")
+        print(f"Ошибка записи с устройства {device_index}: {e}")
     finally:
         # Аккуратно закрываем поток
         if stream:
@@ -196,7 +196,7 @@ def simultaneous_recording(phrase, device_indexes):
 
     # Очищаем экран и начинаем запись
     os.system('cls')
-    print("🎬 ГОВОРИТЕ!")
+    print("ГОВОРИТЕ!")
     start_event.set()
 
     # Ждем пока все потоки реально начнут запись
@@ -210,7 +210,7 @@ def simultaneous_recording(phrase, device_indexes):
         remaining = DURATION - (time.time() - start_time)
         # Обновляем строку с оставшимся временем
         os.system('cls')
-        print(f"🎬 ГОВОРИТЕ! ({remaining:.2f} сек)")
+        print(f"ГОВОРИТЕ! ({remaining:.2f} сек)")
         time.sleep(update_interval)
 
     # Завершение записи
@@ -222,17 +222,17 @@ def simultaneous_recording(phrase, device_indexes):
 
     # Очищаем экран и показываем результат
     os.system('cls')
-    print("🛑 КОНЕЦ ЗАПИСИ!")
+    print("КОНЕЦ ЗАПИСИ!")
 
     # Выводим информацию о сохраненных файлах
-    print(f"\n✅ Запись завершена. Сохранено {len(device_indexes)} файлов")
+    print(f"\nЗапись завершена. Сохранено {len(device_indexes)} файлов")
 
     time.sleep(1)
 
 
 def main():
     """Основная функция"""
-    print("🎧 Система многоканальной записи аудио")
+    print("Система многоканальной записи аудио")
     print("=" * 50)
 
     # Используем глобальную переменную
@@ -248,7 +248,7 @@ def main():
         if show == 'y':
             valid_devices = validate_devices(DEVICE_INDEXES)
             if len(valid_devices) != len(DEVICE_INDEXES):
-                print("⚠️  Некоторые устройства недоступны!")
+                print("Некоторые устройства недоступны!")
                 use_anyway = input("Все равно использовать? (y/n): ").strip().lower()
                 if use_anyway != 'y':
                     DEVICE_INDEXES = valid_devices
@@ -260,7 +260,7 @@ def main():
     # Финальная проверка устройств
     valid_devices = validate_devices(DEVICE_INDEXES)
     if not valid_devices:
-        print("❌ Нет доступных устройств для записи!")
+        print("Нет доступных устройств для записи!")
         return
 
     DEVICE_INDEXES = valid_devices
@@ -292,11 +292,11 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-        print("\n👋 Программа завершена")
+        print("\nПрограмма завершена")
     except KeyboardInterrupt:
         print("\n\n⏹️  Программа прервана пользователем")
     except Exception as e:
-        print(f"\n❌ Критическая ошибка: {e}")
+        print(f"\nКритическая ошибка: {e}")
         import traceback
 
         traceback.print_exc()

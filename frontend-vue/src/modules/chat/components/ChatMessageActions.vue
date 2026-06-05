@@ -36,7 +36,7 @@
     />
 
     <ConfirmButton
-      :label="'🗑 Удалить'"
+      :label="'Удалить'"
       confirm-label="Подтвердить?"
       :timeout="2000"
       btn-class="px-4 py-1 mx-2 ml-5 text-sm rounded text-gray-100 bg-red-500/50 border-2 border-red-500/50 hover:bg-red-600/80 hover:border-gray-100/70"

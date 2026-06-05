@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 
-// базовый URL до твоего Flask-серверa
+// Базовый URL Flask API ассистента.
 // Flask отдает /api/..., а дальше уже /voicecore/... или /avatar/...
 const http = axios.create({
   baseURL: 'http://127.0.0.1:6789/api',
@@ -12,7 +12,7 @@ const http = axios.create({
   },
 })
 
-// возможные состояния движка Vosk (как ты их сам считаешь)
+// Возможные состояния движка Vosk.
 export type AssistantServerState = 'IDLE' | 'LISTENING' | 'CANCELLING' | 'MUTED'
 
 /**

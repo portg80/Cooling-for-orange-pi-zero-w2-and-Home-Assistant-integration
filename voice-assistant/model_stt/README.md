@@ -1,9 +1,9 @@
-# Vosk Model Placeholder
+# Модель распознавания речи Vosk
 
-Place the offline Vosk/Kaldi speech recognition model here:
+Поместите офлайн-модель Vosk/Kaldi в каталог:
 
 ```text
 voice-assistant/model_stt/model-small
 ```
 
-The model directory is not committed because it is an external large artifact.
+Подходит русскоязычная модель Vosk, совместимая с модулем `core/Recognizer.py`.

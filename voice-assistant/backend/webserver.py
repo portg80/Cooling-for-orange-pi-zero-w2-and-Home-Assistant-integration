@@ -9,9 +9,9 @@ WEB_DIR = os.path.join(BASE_DIR, "templates")
 
 # --- Статика ---
 if not os.path.isdir(WEB_DIR):
-    print(f"[ERROR] ❌ Папка templates не найдена: {WEB_DIR}")
+    print(f"[ERROR] Папка templates не найдена: {WEB_DIR}")
 else:
-    print(f"[INIT] ✅ Статика сервируется из: {WEB_DIR}")
+    print(f"[INIT] Статика сервируется из: {WEB_DIR}")
     app.mount("/static", StaticFiles(directory=WEB_DIR, html=True), name="templates")
 
 # --- Хранилище подключенных клиентов ---
@@ -32,7 +32,7 @@ async def websocket_endpoint(ws: WebSocket):
     """Обрабатывает подключения фронтенда"""
     await ws.accept()
     clients.add(ws)
-    print(f"[WS] 🔌 Подключился клиент. Всего: {len(clients)}")
+    print(f"[WS] Подключился клиент. Всего: {len(clients)}")
 
     try:
         while True:
@@ -48,13 +48,12 @@ async def websocket_endpoint(ws: WebSocket):
                     global_assistant.handle_command()
 
     except Exception as e:
-        print("[WS] ❌ Ошибка / отключение:", e)
+        print("[WS] Ошибка / отключение:", e)
     finally:
         clients.discard(ws)
-        print(f"[WS] 🔌 Клиент отключен. Осталось: {len(clients)}")
+        print(f"[WS] Клиент отключен. Осталось: {len(clients)}")
 
 
-# === 🔥 Вот этот метод отвечает за обновление состояния ===
 async def push_state(state: dict):
     if not clients:
         return
@@ -72,5 +71,5 @@ async def push_state(state: dict):
         clients.discard(dead)
 
 
-# 🚀 Создаем ссылку на event loop, чтобы к нему можно было обращаться из других потоков
+# Ссылка на event loop используется для отправки событий из других потоков.
 main_loop = asyncio.get_event_loop()

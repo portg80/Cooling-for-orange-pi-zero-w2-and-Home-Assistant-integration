@@ -7,14 +7,14 @@ import torch
 from .neuralnet.dataset import get_featurizer
 import signal
 import sys
-import pygame  # добавили pygame
-from core.audio_lock import mic_lock  # <- добавить импорт в начало файла
+import pygame
+from core.audio_lock import mic_lock
 import traceback
 from collections import deque
 import time
 
 class Listener:
-    def __init__(self, sample_rate=8000, device_index=None):  # добавили device_index
+    def __init__(self, sample_rate=8000, device_index=None):
         self.chunk = 1024
         self.sample_rate = sample_rate
         self.p = pyaudio.PyAudio()
@@ -22,7 +22,7 @@ class Listener:
                                   channels=1,
                                   rate=self.sample_rate,
                                   input=True,
-                                  input_device_index=device_index,  # вот сюда
+                                  input_device_index=device_index,
                                   frames_per_buffer=self.chunk)
 
     def listen(self, queue):
@@ -57,7 +57,7 @@ class WakeWordEngine:
         self.audio_q = []
         self.paused = False
         self.running = True
-        self.threshold = float(threshold)  # <-- ВАЖНО
+        self.threshold = float(threshold)
 
     def predict(self, audio):
         with torch.no_grad():
@@ -70,7 +70,7 @@ class WakeWordEngine:
             out = self.model(mfcc)
 
             prob = torch.sigmoid(out).item()
-            pred = 1.0 if prob >= self.threshold else 0.0 # <-- вместо round()
+            pred = 1.0 if prob >= self.threshold else 0.0
             #####print(f"[DEBUG] prob={prob:.4f} thr={self.threshold:.3f} pred={pred}")
             return pred
 
@@ -78,7 +78,7 @@ class WakeWordEngine:
         print("[DEBUG] Inference loop started...")
         while self.running:
             if self.paused:
-                time.sleep(0.1)  # 🔇 Спим, пока на паузе
+                time.sleep(0.1)
                 continue
 
             # Проверяем, не на паузе ли движок
@@ -88,20 +88,20 @@ class WakeWordEngine:
                     pred = self.predict(current)
                     action(pred)
 
-                    time.sleep(0.01)  # 🔁 чтобы не жечь CPU, даже без паузы
+                    time.sleep(0.01)
 
-                    # ===== @@@ вычисление RMS для фронтенда =====
+                    # Расчёт RMS для фронтенда.
                     raw = b''.join(current)
                     waveform = np.frombuffer(raw, dtype=np.int16).astype(np.float32)
                     rms = np.sqrt(np.mean(waveform**2)) / 32768.0
                     audio_levels = [rms]*100
 
-                    # ===== @@@ отправка состояния =====
+                    # Подготовка состояния для передачи во фронтенд.
                     status = "listening" if not self.paused else "muted"
                     last_text = getattr(action.__self__, "last_text", "")
                     #push_state(status, last_text, audio_levels)
 
-            # @@@ если пауза, отправляем muted
+            # При паузе во фронтенд может отправляться muted-состояние.
             #push_state("muted", getattr(action.__self__, "last_text", ""), [0] * 100)
 
             time.sleep(0.03)
@@ -114,7 +114,7 @@ class WakeWordEngine:
     def pause(self):
         """Поставить на паузу обработку wake word"""
         self.paused = True
-        print("[WAKE WORD] [🔇MUTE] Обработка wake word приостановлена")
+        print("[WAKE WORD] [MUTE] Обработка wake word приостановлена")
 
     def resume(self):
         """Возобновить обработку wake word"""
@@ -126,15 +126,14 @@ class WakeWordEngine:
         except Exception:
             pass
 
-        # 🔴 ОЧИСТКА БУФЕРА - важно!
         self.audio_q.clear()
 
         self.paused = False
-        print("[WAKE WORD] [🎤SAYING] Обработка wake word возобновлена")
+        print("[WAKE WORD] [LISTENING] Обработка wake word возобновлена")
 
     def toggle_pause(self):
         self.paused = not self.paused
-        state = "[🔇MUTE] Обработка wake word приостановлена" if self.paused else "[🎤UNMUTE] Обработка wake word возобновлена"
+        state = "[MUTE] Обработка wake word приостановлена" if self.paused else "[UNMUTE] Обработка wake word возобновлена"
         print(f"[WAKEWORD] {state}")
 
     def is_paused(self):

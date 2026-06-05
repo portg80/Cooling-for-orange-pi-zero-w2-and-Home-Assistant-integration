@@ -13,7 +13,7 @@ plot_dataset_hours.py
 
 По умолчанию считает, что один файл = один сегмент фиксированной длины SEGMENT_SEC.
 
-Структура (как у тебя):
+Ожидаемая структура:
 - BASE_DATA_DIR = E:\LABS_VOLGU\WakeWord_Neiro\data
 - NEGATIVES_BALANCED\<Категория>\*.wav (и подпапки)
 - AGUMENTATIONS\<Категория или Dataset>\positive_augments\*.wav

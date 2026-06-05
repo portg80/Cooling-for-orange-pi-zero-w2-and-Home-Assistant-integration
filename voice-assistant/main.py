@@ -6,8 +6,8 @@ from core.Recognizer import Recognizer
 from core.Command_manager import CommandManager
 from core.NLU.Nlu import NLU
 from core.audio_lock import mic_lock
-from core.wake_word_ai.WakeWordEngine import WakeWordEngine  # твой wake word код
-from core.MQTT_SENDLER_CLASS import MQTT_SENDLER_CLASS  # импорт твоего класса MQTT
+from core.wake_word_ai.WakeWordEngine import WakeWordEngine
+from core.MQTT_SENDLER_CLASS import MQTT_SENDLER_CLASS
 import keyboard
 from backend.webserver import app, run_ws_server
 from core.web_interface.server import WebInterface
@@ -16,27 +16,10 @@ import logging
 logging.getLogger('werkzeug').disabled = True
 
 
-global_assistant = None  # сюда WS будет писать команды
-
-
-# детектится на Арина и мычание слова Афина, добавить систему логирования исполненых команд в интерфейс Home assistant
-# В веб интерфейсе сделать вывод последних используемых команд и инвертированных команд (если включили свет - команду на выключение)
-# Детектится на мычание песни артура пирожкова хэй хэй не стесняйся людей давай все будет окей
-# громкость добавить звуков и настройку ее
-# отмена команды не работает верно, она отменяет и отчищает буфер, но если сказать любое слово он распознаст его хотя дожен быть остановлен!
-# так же ошибка на фронте - при нажатии на кнопку активации цвет кнопки и иконка микрофона не меняются, но если сказать голосом триггер тогда иконка отображает что микрофон якобы выключен (да выключен именно модуль WW) а должен остатся так же зеленым чтобы не путать пользователя!
-# при нажатии на аватар и выполнении команды следующее нажатие не опять включает ассистента а пытается завершить команду, хотя команду мы не останавливаем преждевременно
-# вместо ответа "команда выполнена: {текст запроса}" нужно выводить имя реально запущенной автоматизации!
-# реализовать меню с доступными командами, категории команд (многоуровневые) и возможно редактор команд из UI
-# чтобы можно было редактировать файлы, открывать, с подсветкой пайтон синтаксиса и тд и они потом перезаписывались на отредактированые
-# фронт в гитхаб закинуть
-# https://swagger.io/ инструмент для проектирования API а так же есть заглушка вместо сервера для ответов. Так же нужно настроить автоматическую генерацию документации к API
-# Рассмотреть внедрение GraphQL (API клиент может выбирать какие поля он хочет получить. Сервер определяет схему, клиент запрашивает нужные данные) https://youtu.be/XaTwnKLQi4A?list=PL6DxKON1uLOFP5_VPhy6BCE7DA0jdzWO5&t=2051   и пример: https://youtu.be/XaTwnKLQi4A?list=PL6DxKON1uLOFP5_VPhy6BCE7DA0jdzWO5&t=2190
-# Также в GraphQL есть подписки для получения данных в реальном времени (сделаны поверх вебсокетов)
+global_assistant = None
 
 class VoiceAssistant:
     def __init__(self):
-        # 🔧 Настройки
         self.project_root = os.path.dirname(os.path.abspath(__file__))
 
         self.model_file = os.path.join(self.project_root, "core", "wake_word_ai", "TEST", "afina_reworked_1.ptc")
@@ -47,15 +30,13 @@ class VoiceAssistant:
         self.sensitivity = 8  # чувствительность срабатываний
         self.detect_in_row = 0
 
-        #self.active = False  # состояние ассистента
-        # 🔇 Флаг ручного отключения прослушивания
         self.manual_mute = False
 
         # Объект класса MQTT который настраивает подключение к нему в отдельном потоке и позволяет отправлять команды
         # в MQTT топики (Класс: MQTT_SENDLER_CLASS)
         self.mqtt_sendler_class = None
 
-        # 🎧 Инициализация компонентов
+        # Инициализация компонентов
         print("[INIT] Загрузка wake word модели...")
         self.wakeword_engine = WakeWordEngine(self.model_file, device_index=self.mic_index)
 
@@ -68,27 +49,24 @@ class VoiceAssistant:
         self.command_manager = CommandManager(assistant=self, sound_player=self.sound_player)
         self.nlu = NLU(self.command_manager.commands)
 
-        # 🔹 Веб-интерфейс
         self.web_interface = WebInterface(self)
 
         # Поток отслеживающий нажатия клавиатуры
         #threading.Thread(target=self.keyboard_listener, daemon=True).start()
 
 
-        # 🔊 Инициализация pygame для звука
         pygame.mixer.init()
 
-        # LOCK потоков
-        self._lock = threading.Lock()   # 🔹 блокировка для безопасного toggle
+        self._lock = threading.Lock()
         # Состояние: "IDLE", "LISTENING", "CANCELLING"
         self.state_assistant_vosk = "IDLE"
         self.last_cancel_time = 0.0
         self.cancel_debounce = 1  # секунды
 
     def start(self):
-        # 🔹 Запускаем MQTT
-        ########################### MQTT ОТРУБИЛ ПОКА #################################self.start_mqtt()
-        # 🔹 Присваиваем MQTT всем командам которые нуждаются в доступе к MQTT (имеют атрибут(поле) mqtt_sendler_class)
+        # MQTT запускается вручную при необходимости.
+        # self.start_mqtt()
+        # Присваиваем MQTT всем командам, которым нужен доступ к MQTT.
         for cmd in self.command_manager.commands:
             if hasattr(cmd, "mqtt_sendler_class"):
                 cmd.mqtt_sendler_class = self.mqtt_sendler_class
@@ -96,14 +74,13 @@ class VoiceAssistant:
         # Запускаем wake word engine в отдельном потоке
         threading.Thread(target=self.wakeword_engine.run, args=(self.on_wake,), daemon=True).start()
 
-        # 🔹 Запуск веб-интерфейса в отдельном потоке
         web_thread = threading.Thread(target=self.web_interface.run, daemon=True)
         web_thread.start()
 
         print("======================================")
         print("  ГОЛОСОВОЙ АССИСТЕНТ ЗАПУЩЕН")
         print("  Web интерфейс: http://127.0.0.1:6789")
-        print("  Скажи wake word, чтобы активировать...")
+        print("  Произнесите wake word, чтобы активировать ассистента...")
         print("======================================")
 
         # Основной цикл просто живет
@@ -128,15 +105,14 @@ class VoiceAssistant:
                       f"\n{self.state_assistant_vosk=}")
                 self.detect_in_row = 0
 
-                # вынесли запуск прослушивания команды в отдельный метод
-                self.activate_listening_command()  # новый универсальный метод
+                self.activate_listening_command()
         else:
             self.detect_in_row = 0
 
     # Публичный метод для внешнего вызова прослушивания
     def activate_listening_command(self):
         """
-        🔹 Запускает процесс прослушивания голосовой команды.
+        Запускает процесс прослушивания голосовой команды.
         Можно вызвать из других частей проекта (например, по API или MQTT).
         """
         with self._lock:
@@ -159,12 +135,12 @@ class VoiceAssistant:
         """Переключение состояния прослушивания команды (start/stop)"""
         with self._lock:
             if self.state_assistant_vosk != "IDLE":
-                print("[LISTEN] 🔹 Прерывание текущего прослушивания команды")
+                print("[LISTEN] Прерывание текущего прослушивания команды")
                 self.recognizer.stop_listening()
-                # self.state_assistant_vosk = "IDLE" # handle_command сам доведёт состояние до IDLE в блоке finally  #ИЗМЕНЕНО (4)
+                # handle_command сам доведёт состояние до IDLE в блоке finally
                 return
         # Запуск потока вне lock
-        print("[LISTEN] 🔹 Запуск прослушивания команды")
+        print("[LISTEN] Запуск прослушивания команды")
         self.activate_listening_command()
 
     def handle_command(self):
@@ -183,7 +159,7 @@ class VoiceAssistant:
             except Exception:
                 pass
 
-            # 🔹 Короткая пауза (чтобы отрезать хвост wake word)
+            # Короткая пауза отсекает хвост wake word.
             time.sleep(0.5)
             print("[LISTEN] Говорите команду...")
 
@@ -192,12 +168,10 @@ class VoiceAssistant:
             for text in self.recognizer.listen():
                 if text:
                     print("→", text)
-                    # 🔹 ОТПРАВКА распознанного текста в веб-интерфейс
                     self.web_interface.send_recognized_speech(text)
 
                     cmd, converted_text = self.nlu.best_match(text)
                     if cmd:
-                        # 🔹 Если команда требует ответа - отправляем в веб-интерфейс
                         if hasattr(cmd, 'get_response'):
                             response = cmd.get_response()
                             self.web_interface.send_assistant_response(response)
@@ -225,7 +199,7 @@ class VoiceAssistant:
             except Exception:
                 pass
 
-            # 🔴 ВАЖНОЕ ИЗМЕНЕНИЕ: возобновляем wakeword ТОЛЬКО если не было ручного отключения
+            # Wake word возобновляется только если прослушивание не было отключено вручную.
             if not self.manual_mute:
                 try:
                     if hasattr(self, 'wakeword_engine') and hasattr(self.wakeword_engine, 'resume'):
@@ -250,7 +224,7 @@ class VoiceAssistant:
                 print("[LISTEN] Нет активной команды для отмены")
                 return
 
-            print("[LISTEN] 🔹 Отмена текущей команды (cancel)")
+            print("[LISTEN] Отмена текущей команды")
             self.state_assistant_vosk = "CANCELLING"
 
             # Берём блокировку микрофона, чтобы убедиться, что никакой поток
@@ -294,7 +268,7 @@ class VoiceAssistant:
 
             # Отправляем статус в веб-интерфейс
             if hasattr(self, 'web_interface'):
-                self.web_interface.send_assistant_response("🔇 Режим прослушивания: ОТКЛЮЧЕН", "system")
+                self.web_interface.send_assistant_response("Режим прослушивания: ОТКЛЮЧЕН", "system")
 
             # Отправляем MQTT статус
             self._send_wakeword_status("muted")
@@ -310,7 +284,7 @@ class VoiceAssistant:
 
             # Отправляем статус в веб-интерфейс
             if hasattr(self, 'web_interface'):
-                self.web_interface.send_assistant_response("🎤 Режим прослушивания: ВКЛЮЧЕН", "system")
+                self.web_interface.send_assistant_response("Режим прослушивания: ВКЛЮЧЕН", "system")
 
             # Отправляем MQTT статус
             self._send_wakeword_status("listening")
@@ -351,10 +325,10 @@ class VoiceAssistant:
                     "assistant/wakeword_listening/status",
                     status_data
                 )
-                print(f"[ASSISTANT] 📡 MQTT статус отправлен: {status}")
+                print(f"[ASSISTANT] MQTT статус отправлен: {status}")
 
         except Exception as e:
-            print(f"[ASSISTANT] ❌ MQTT ошибка: {e}")
+            print(f"[ASSISTANT] MQTT ошибка: {e}")
 
     def play_beep(self):
         """Воспроизведение короткого звука активации."""
@@ -366,7 +340,6 @@ class VoiceAssistant:
         except Exception as e:
             print(f"[WARN] Не удалось воспроизвести beep: {e}")
 
-    # 🔹 Метод для отправки ответов ассистента
     def say(self, text):
         """Метод для ответов ассистента (аналог TTS)"""
         print(f"[Ассистент] {text}")
@@ -396,7 +369,7 @@ class VoiceAssistant:
                 time.sleep(0.5)  # защита от дребезга клавиши
             if keyboard.is_pressed('l'):
                 # клавиша для начала и остановки прослушивания команды (переключение тонгл)
-                self.toggle_listening_command()  # 🔹 вызов toggle
+                self.toggle_listening_command()
                 time.sleep(0.5)
             if keyboard.is_pressed('c'):  # например, 'C' для отмены текущей команды
                 self.cancel_listening_command()

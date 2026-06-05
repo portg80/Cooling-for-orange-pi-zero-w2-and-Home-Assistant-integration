@@ -32,7 +32,7 @@ class AudioStreamService:
         mic_thread.start()
         process_thread.start()
 
-        print("[🎤] Аудио поток для визуализации запущен")
+        print("[AUDIO] Аудио поток для визуализации запущен")
 
     def _mic_loop(self):
         """Поток для чтения микрофона"""
@@ -50,7 +50,7 @@ class AudioStreamService:
                 frames_per_buffer=self.chunk_size
             )
 
-            print(f"[🎤] Микрофон визуализации запущен (chunk_size: {self.chunk_size})")
+            print(f"[AUDIO] Микрофон визуализации запущен (chunk_size: {self.chunk_size})")
 
             while self.is_running:
                 try:
@@ -112,4 +112,4 @@ class AudioStreamService:
                 self.audio_queue.get_nowait()
         except:
             pass
-        print("[🎤] Аудио поток визуализации остановлен")
+        print("[AUDIO] Аудио поток визуализации остановлен")

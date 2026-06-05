@@ -28,7 +28,7 @@ def audio_stream():
                     input=True,
                     input_device_index=8,
                     frames_per_buffer=CHUNK)
-    print("[🎤] Микрофон запущен")
+    print("[AUDIO] Микрофон запущен")
 
     while running:
         data = np.frombuffer(stream.read(CHUNK, exception_on_overflow=False), dtype=np.int16)
@@ -60,7 +60,7 @@ def index():
 @sock.route('/ws')
 def websocket(ws):
     clients.add(ws)
-    print("[🌐] Новый клиент подключился")
+    print("[WS] Новый клиент подключился")
     try:
         while True:
             ws.receive()  # держим соединение открытым
@@ -68,11 +68,11 @@ def websocket(ws):
         pass
     finally:
         clients.remove(ws)
-        print("[❌] Клиент отключился")
+        print("[WS] Клиент отключился")
 
 
 if __name__ == '__main__':
     # Запускаем поток записи микрофона
     threading.Thread(target=audio_stream, daemon=True).start()
-    print("[🚀] Flask сервер запущен на http://127.0.0.1:5000")
+    print("[SERVER] Flask сервер запущен на http://127.0.0.1:5000")
     app.run(host='0.0.0.0', port=5000)

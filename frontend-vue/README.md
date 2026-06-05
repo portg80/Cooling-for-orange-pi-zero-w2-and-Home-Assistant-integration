@@ -1,6 +1,6 @@
 # Vue-интерфейс Afina
 
-Это новый прототип веб-интерфейса для Afina. Он построен на Vue 3, TypeScript, Vite, Pinia, Tailwind CSS и Axios.
+Веб-интерфейс Afina построен на Vue 3, TypeScript, Vite, Pinia, Tailwind CSS и Axios.
 
 Интерфейс ожидает backend API ассистента по адресу:
 

@@ -7,8 +7,8 @@ verify_wakeword_vosk_ide.py
 - В конце — статистика.
 
 Запуск из IDE:
-- Просто выставь DEFAULT_* переменные ниже
-- Нажми Run
+- Укажите DEFAULT_* переменные ниже.
+- Запустите скрипт из IDE.
 
 Зависимости:
 pip install vosk librosa soundfile tqdm
@@ -28,10 +28,10 @@ from vosk import Model, KaldiRecognizer
 # НАСТРОЙКИ ПО УМОЛЧАНИЮ (под запуск из IDE)
 # =========================================================
 
-# ВАЖНО: поставь сюда тот же INPUT_DIR, что в основном скрипте
+# Укажите тот же INPUT_DIR, что используется в основном скрипте.
 DEFAULT_INPUT_DIR = r"E:\LABS_VOLGU\WakeWord_Neiro\data\v2_RAWS\v2_positive\TTS_VOICE_timeBad\TEST"
 
-# Папка с итоговыми позитивными аугментациями (как у тебя в основном скрипте)
+# Папка с итоговыми позитивными аугментациями.
 DEFAULT_AUG_ROOT = os.path.join(DEFAULT_INPUT_DIR, "AUGMENTS")
 DEFAULT_VERIFY_DIR = os.path.join(DEFAULT_AUG_ROOT, "positive_augments")
 

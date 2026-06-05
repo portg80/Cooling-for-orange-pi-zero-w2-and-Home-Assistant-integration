@@ -1290,8 +1290,7 @@ def estimate_dataset_size(num_originals: int, duration_sec: float = DURATION):
 # =============================
 
 if __name__ == "__main__":
-    # 0) (шумы/NoisePool уже должны быть загружены ВЫШЕ один раз)
-    #    т.е. твой блок low_noise_pool/aggressive_noise_pool — оставь глобально как есть.
+    # 0) Шумы/NoisePool должны быть загружены выше один раз.
 
     # 1) Собираем позитивы по всем папкам
     datasets = []

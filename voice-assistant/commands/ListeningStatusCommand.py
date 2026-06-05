@@ -20,7 +20,7 @@ class ListeningStatusCommand(BaseCommand):
         # Визуальный статус в веб-интерфейс
         if hasattr(self.assistant, 'web_interface'):
             self.assistant.web_interface.send_assistant_response(
-                f"📊 {status}",
+                status,
                 "system"
             )
 

@@ -1,5 +1,3 @@
-# TTS Model Placeholder
+# Модели синтеза речи
 
-Large local TTS model weights are intentionally not committed.
-
-If TTS experiments are needed, place the model files in this directory.
+Каталог предназначен для весов локальной TTS-модели. Эти файлы используются модулем `core/TTS/silero_tts.py` при синтезе голосовых ответов.

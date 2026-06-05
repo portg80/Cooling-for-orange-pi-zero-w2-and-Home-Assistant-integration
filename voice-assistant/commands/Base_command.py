@@ -45,7 +45,7 @@ class BaseCommand(ABC):
 
     def _match_fuzzy(self, text: str) -> bool:
         """Нечеткое совпадение (используется в NLU)"""
-        # Эта логика будет в NLU, здесь просто заглушка
+        # Базовая реализация использует поиск подстроки.
         return self._match_contains(text)
 
     @abstractmethod
@@ -64,7 +64,7 @@ class BaseCommand(ABC):
         if self.sound_player and hasattr(self.sound_player, 'play_sound'):
             self.sound_player.play_sound(sound_path, volume=volume)
         else:
-            print(f"[SOUND] 🔊 {sound_path} (volume: {volume})")
+            print(f"[SOUND] {sound_path} (volume: {volume})")
 
     def _find_file_with_extension(self, base_path, filename):
         """
@@ -111,7 +111,7 @@ class BaseCommand(ABC):
 
             # Проверяем существует ли папка
             if not os.path.exists(full_folder_path):
-                print(f"[SOUND] ⚠️ Папка не существует: {full_folder_path}")
+                print(f"[SOUND] Папка не существует: {full_folder_path}")
                 return []
 
             # Получаем все файлы из папки
@@ -125,11 +125,11 @@ class BaseCommand(ABC):
                     if any(file.lower().endswith(ext.lower()) for ext in extensions):
                         filtered_files.append(file)
 
-            print(f"[SOUND] 📁 В папке {folder_path} найдено {len(filtered_files)} файлов: {filtered_files}")
+            print(f"[SOUND] В папке {folder_path} найдено {len(filtered_files)} файлов: {filtered_files}")
             return filtered_files
 
         except Exception as e:
-            print(f"[SOUND] ❌ Ошибка чтения папки {folder_path}: {e}")
+            print(f"[SOUND] Ошибка чтения папки {folder_path}: {e}")
             return []
 
     def get_random_sound(self, folder_path, *filenames, default_extension='.wav', use_all_files=False):
@@ -212,7 +212,7 @@ class BaseCommand(ABC):
             self.play_sound(sound_path, volume=volume)
             return True
         except Exception as e:
-            print(f"[SOUND] ❌ Error playing random sound: {e}")
+            print(f"[SOUND] Error playing random sound: {e}")
             return False
 
     def get_sound_path(self, folder_path, filename, default_extension='.wav'):
@@ -242,7 +242,7 @@ class BaseCommand(ABC):
 
             # Проверяем существует ли папка
             if not os.path.exists(full_folder_path):
-                print(f"[SOUND] ⚠️ Папка не существует: {full_folder_path}")
+                print(f"[SOUND] Папка не существует: {full_folder_path}")
                 return []
 
             # Получаем все файлы из папки
@@ -256,11 +256,11 @@ class BaseCommand(ABC):
                     if any(file.lower().endswith(ext.lower()) for ext in extensions):
                         filtered_files.append(file)
 
-            print(f"[SOUND] 📁 В папке {folder_path} найдено {len(filtered_files)} файлов: {filtered_files}")
+            print(f"[SOUND] В папке {folder_path} найдено {len(filtered_files)} файлов: {filtered_files}")
             return filtered_files
 
         except Exception as e:
-            print(f"[SOUND] ❌ Ошибка чтения папки {folder_path}: {e}")
+            print(f"[SOUND] Ошибка чтения папки {folder_path}: {e}")
             return []
 
     def get_random_sound(self, folder_path, *filenames, default_extension='.wav', use_all_files=False):
