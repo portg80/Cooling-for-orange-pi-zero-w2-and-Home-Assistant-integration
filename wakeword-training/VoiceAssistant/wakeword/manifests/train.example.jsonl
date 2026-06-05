@@ -1,0 +1,3 @@
+{"key": "data/positive/afina_example_001.wav", "label": 1}
+{"key": "data/negative/background_speech_001.wav", "label": 0}
+{"key": "data/negative/household_noise_001.wav", "label": 0}

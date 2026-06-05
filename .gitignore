@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Node / frontend
+node_modules/
+dist/
+coverage/
+*.log
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Large local artifacts
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+*.pt
+*.pth
+*.onnx
+model_stt/model-small/
+voice-assistant/model_stt/model-small/
+voice-assistant/core/TTS/model_tts/*.pt
+datasets/
+data/raw/
+data/processed/
+
+!voice-assistant/media/system_audio/*.wav
+!voice-assistant/core/wake_word_ai/**/*.ptc
+!assets/**/*.png

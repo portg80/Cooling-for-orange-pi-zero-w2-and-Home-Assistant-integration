@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Афина — Голосовой Ассистент{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex flex-column flex-md-row justify-content-center align-items-center min-vh-50 text-white">
+        <div class="col-auto">
+          {% include 'partials/_wave.html' %}
+        </div>
+        <div class="col">
+          {% include 'partials/_chat.html' %}
+        </div>
+      </div>
+
+      <div class="status-card">
+        <h4>Управление прослушиванием</h4>
+        <div id="listeningStatus">
+          <p>Wake Word: <span id="wakewordStatus">активен</span></p>
+          <p>Режим: <span id="listeningMode">автоматический</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'partials/_navbar.html' %}
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <!-- дополнительные скрипты страницы -->
+  <script src="https://cdn.jsdelivr.net/gh/josephg/noisejs/perlin.js"></script>
+  <script src="{{ url_for('static', filename='js/visualization/blobWaveVisualizer.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/skins/skinDrawers.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/skins/skinManager.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ui/chatManager.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/ui/stateManager.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/handlers/eventHandlers.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+<!-- Если хочешь передать список скинов с сервера: -->
+{% if skins is defined %}
+<script>
+  window.SERVER_SKINS = {{ skins|tojson | safe }};
+</script>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // canvas id должен совпадать с тем, что в шаблоне: 'skin-canvas'
+    const options = {};
+    if (window.SERVER_SKINS) options.skins = window.SERVER_SKINS;
+
+    window.skinManager = new SkinManager('skin-canvas', options);
+
+    // инициализация chatManager (как у тебя)
+    window.chatManager = new ChatManager('chatContainer');
+  });
+</script>
+{% endblock %}
