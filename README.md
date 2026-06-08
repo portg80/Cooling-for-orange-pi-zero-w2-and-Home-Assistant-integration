@@ -126,29 +126,13 @@ docs/                            документация проекта
 4. Оптимизация модели через [optimize_graph.py](wakeword-training/VoiceAssistant/wakeword/neuralnet/optimize_graph.py).
 5. Использование `.ptc` модели через [engine.py](wakeword-training/VoiceAssistant/wakeword/engine.py) или встроенный движок ассистента.
 
-Модель, используемая ассистентом: [afina_reworked_1.ptc](voice-assistant/core/wake_word_ai/TEST/afina_reworked_1.ptc). Модель [wakeword21.ptc](voice-assistant/core/wake_word_ai/WW_models/wakeword21.ptc) оставлена для сравнения с предыдущей версией.
+Модель, используемая ассистентом: [wakeword21.ptc](voice-assistant/core/wake_word_ai/WW_models/wakeword21.ptc).
 
 Подробнее: [docs/wakeword-training.md](docs/wakeword-training.md).
 
 ## Датасет
 
 Раздел с датасетом содержит скрипты записи, предобработки, аугментации, нарезки и анализа аудио. Полный аудиодатасет хранится отдельно из-за объёма и состава исходных записей.
-
-Использованные манифесты обучения содержали:
-
-- `31 745` двухсекундных записей;
-- `6 961` позитивный пример;
-- `24 784` негативных примера;
-- примерно `17.6` часа аудио в train/test манифестах.
-
-Отчёты:
-
-- [dataset_hours_summary.csv](assets/dataset-stats/dataset_hours_summary.csv)
-- [dataset_hours_all_in_one.png](assets/dataset-stats/dataset_hours_all_in_one.png)
-- [totals_pos_vs_neg.png](assets/dataset-stats/totals_pos_vs_neg.png)
-- [positives_by_category.png](assets/dataset-stats/positives_by_category.png)
-- [negatives_by_category.png](assets/dataset-stats/negatives_by_category.png)
-- [mfcc_positive_example.png](assets/wakeword/mfcc_positive_example.png)
 
 Подробнее: [docs/dataset-pipeline.md](docs/dataset-pipeline.md).
 
@@ -159,10 +143,10 @@ docs/                            документация проекта
 - приветствие;
 - дата и время;
 - статус прослушивания;
-- mute/unmute wake word;
-- установка будильника через MQTT;
-- поиск телефона через MQTT;
-- переключение аудиомаршрута Voicemeter;
+- mute/unmute микрофона;
+- установка будильника на телефоне Android-Itent'ом через MQTT [SetAlarmCommand.py](../voice-assistant/commands/SetAlarmCommand.py);
+- поиск телефона с помощью установки таймера Android-Itent'ом через MQTT [find_my_phone.py](../voice-assistant/commands/find_my_phone.py).;
+- переключение аудиомаршрута на ПК в микшере Voicemeter через их API;
 - управление светом Satisfactory по всем лампам, группе, конкретной лампе, яркости и цвету;
 - демонстрационная логика Satisfactory для чтения состояния цистерн, хранилищ и производственных секций;
 - пример произвольного навыка с расчётом стоимости пиццы.
@@ -174,7 +158,7 @@ docs/                            документация проекта
 В проекте есть два направления интерфейса:
 
 - `voice-assistant/core/web_interface` — Flask-интерфейс, который запускается вместе с ассистентом на `http://127.0.0.1:6789`.
-- `frontend-vue` — новый интерфейс на Vue 3 и TypeScript, который обращается к Flask API по адресу `http://127.0.0.1:6789/api`.
+- `frontend-vue` — интерфейс на Vue 3 и TypeScript, который обращается к Flask API по адресу `http://127.0.0.1:6789/api`.
 
 ## Быстрый запуск
 
