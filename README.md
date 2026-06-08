@@ -191,19 +191,20 @@ python main.py
 
 ## Охлаждение Orange Pi
 
-Исходная инструкция по охлаждению вынесена в [docs/cooling-orange-pi.md](docs/cooling-orange-pi.md). Кодовые артефакты лежат в [integrations/cooling-orange-pi](integrations/cooling-orange-pi):
+Инструкция и демонстрация работы (видео и фото) находятся в [docs/cooling-orange-pi.md](docs/cooling-orange-pi.md). 
 
-- [pwm_fan_daemon.py](integrations/cooling-orange-pi/pwm_fan_daemon.py)
-- [dashboard-UI_Lovelace.yaml](integrations/cooling-orange-pi/dashboard-UI_Lovelace.yaml)
+Связанный код расположен в [integrations/cooling-orange-pi](integrations/cooling-orange-pi):
+
+- Скрипт управления скоростью и отправки данных через MQTT в Home Assistant [pwm_fan_daemon.py](integrations/cooling-orange-pi/pwm_fan_daemon.py)
+- "Верстка" страницы для мониторинга и управления охлаждением [dashboard-UI_Lovelace.yaml](integrations/cooling-orange-pi/dashboard-UI_Lovelace.yaml)
 
 ## Локальные зависимости
 
 Для полного запуска используются внешние модели и локальные данные:
 
 - Vosk STT модель в `voice-assistant/model_stt/model-small`;
-- TTS-веса в `voice-assistant/core/TTS/model_tts`;
-- полный сырой и аугментированный аудиодатасет для повторного обучения;
-- Python virtualenv для ассистента;
+- TTS модель в `voice-assistant/core/TTS/model_tts`;
+
 - `node_modules` для Vue-интерфейса.
 
 Подробнее: [docs/environment.md](docs/environment.md).
