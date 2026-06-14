@@ -220,7 +220,7 @@ cd /root/
 sudo pip3 install --break-system-packages paho-mqtt
 ```
 
-Теперь установим python библиотеку wiringOP (wiringPi) для поддержки управления пинами. Без нее ничего не будет работать:
+Теперь установим библиотеку wiringOP (wiringPi) для поддержки управления пинами. Без нее ничего не будет работать:
 
 ```bash
 cd /root/
@@ -243,6 +243,26 @@ gpio readall
 
  <img width="1001" height="789" alt="image" src="https://github.com/user-attachments/assets/f2914797-0754-45ab-a5b0-4a3ea60d10f2"/>
 
+
+Теперь установим библиотеку wiringOP-Python:
+```bash
+cd /root
+git clone --recursive https://github.com/orangepi-xunlong/wiringOP-Python.git -b next
+cd wiringOP-Python
+git submodule update --init --remote
+python3 generate-bindings.py > bindings.i
+sudo python3 setup.py install
+```
+
+Проверим что библиотеки wiringOP-Python и paho-mqtt установились верно:
+
+```
+python3 -c "import wiringpi as GPIO; print('wiringpi OK'); print(GPIO.__file__)"
+python3 -c "import paho.mqtt.client as mqtt; print('paho OK'); print(mqtt.__file__)"
+```
+
+Вывод должен быть такой:
+<img width="1004" height="116" alt="image" src="https://github.com/user-attachments/assets/e40b46ea-d9f8-4c96-b96a-483407c4db4d" />
 
 
 ## Теперь добавим скрипт в автозагрузку, чтобы при запуске сервера он автоматически включался и начинал работу
