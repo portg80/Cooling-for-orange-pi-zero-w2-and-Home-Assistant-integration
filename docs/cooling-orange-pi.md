@@ -228,6 +228,7 @@ apt-get update
 apt-get install -y git
 git clone https://github.com/orangepi-xunlong/wiringOP.git
 cd wiringOP
+sudo apt install -y build-essential make gcc g++
 sudo ./build clean
 sudo ./build
 ```
