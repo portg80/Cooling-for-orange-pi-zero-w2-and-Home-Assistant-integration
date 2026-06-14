@@ -7,8 +7,6 @@
 - [pwm_fan_daemon.py](../integrations/cooling-orange-pi/pwm_fan_daemon.py)
 - [dashboard-UI_Lovelace.yaml](../integrations/cooling-orange-pi/dashboard-UI_Lovelace.yaml)
 
-Ниже сохранён подробный практический гайд с настройкой Home Assistant, MQTT и Node-RED.
-
 Через MQTT показатели системы охлаждения отображаются в Home Assistant, а настройки вентилятора меняются из панели управления.
 
 Также предусмотрена система оповещения в Node-RED: при остановке вентилятора отправляется уведомление на телефон и может озвучиваться экстренное сообщение через Яндекс Алису.
